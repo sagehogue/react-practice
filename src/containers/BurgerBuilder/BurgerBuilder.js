@@ -4,6 +4,7 @@ import Util from '../../hoc/Util';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
 
 const INGREDIENT_PRICES = {
     salad: 0.25,
@@ -22,6 +23,7 @@ class BurgerBuilder extends Component {
         },
         totalPrice: 3,
         purchasable: false,
+        purchasing: false,
     }
 
     updatePurchaseState(ingredients) {
@@ -62,6 +64,19 @@ class BurgerBuilder extends Component {
         this.setState({totalPrice: newPrice, ingredients: updatedIngredients}) 
         this.updatePurchaseState(updatedIngredients);
     }
+
+    purchaseHandler = () => {
+        this.setState({purchasing: true})
+    }
+
+    purchaseCancelHandler = () => {
+        this.setState({purchasing: false})
+    }
+
+    purchaseContinueHandler = () => {
+        alert('You bought it!');
+    }
+
     render() {
         const disabledInfo = {
             ...this.state.ingredients
@@ -71,9 +86,20 @@ class BurgerBuilder extends Component {
         }
         return (
             <Util>
-                <Modal />
+                <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
+                    <OrderSummary ingredients={this.state.ingredients}
+                    purchaseCancelled={this.purchaseCancelHandler}
+                    purchaseContinued={this.purchaseCancelHandler}/>
+                </Modal>
                 <Burger ingredients={this.state.ingredients} />
-                <BuildControls ingredientAdded={this.addIngredientHandler} ingredientRemoved={this.removeIngredientHandler} disabled={disabledInfo} purchasable={this.state.purchasable} price={this.state.totalPrice} />
+                <BuildControls 
+                ingredientAdded={this.addIngredientHandler} 
+                ingredientRemoved={this.removeIngredientHandler} 
+                disabled={disabledInfo} 
+                purchasable={this.state.purchasable} 
+                price={this.state.totalPrice} 
+                ordered={this.purchaseHandler}
+                />
             </Util>
         );
     }
