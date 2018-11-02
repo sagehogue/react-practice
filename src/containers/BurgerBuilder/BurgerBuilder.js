@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Util from '../../hoc/Util';
+import Util from '../../hoc/Util/Util';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
@@ -50,7 +50,6 @@ class BurgerBuilder extends Component {
     }
 
     removeIngredientHandler = (type) => {
-        console.log('remove Ing fired!')
         const oldCount = this.state.ingredients[type];
         let updatedCount;
         oldCount > 0 ? updatedCount = oldCount - 1 : updatedCount = oldCount;
