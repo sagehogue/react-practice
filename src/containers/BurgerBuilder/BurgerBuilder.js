@@ -30,7 +30,7 @@ class BurgerBuilder extends Component {
         axios.get('https://react-course-burger-buil-34571.firebaseio.com/ingredients.json').then(res => {
             console.log(res)
             this.setState({ ingredients: res.data })
-        }).catch(error => {this.setState({error: true})});
+        }).catch(error => { this.setState({ error: true }) });
     }
 
     updatePurchaseState(ingredients) {
@@ -81,29 +81,31 @@ class BurgerBuilder extends Component {
 
     purchaseContinueHandler = () => {
         // alert('You bought it!');
-        this.setState({ loading: true });
-        const order = {
-            ingredients: this.state.ingredients,
-            price: this.state.totalPrice, // should b serverside operation
-            customer: {
-                name: 'Sage Hogue',
-                address: {
-                    street: 'Testlocation 5',
-                    zipCode: '23912',
-                    country: 'USA'
-                },
-                email: 'test@domain.io'
-            },
-            deliveryMethod: 'asap'
-        }
-        axios.post('/orders.json', order)
-            .then(response => {
-                this.setState({ loading: false, purchasing: false });
-            })
-            .catch(error => {
-                console.log(error);
-                this.setState({ loading: false, purchasing: false });
-            });
+        //     this.setState({ loading: true });
+        //     const order = {
+        //         ingredients: this.state.ingredients,
+        //         price: this.state.totalPrice, // should b serverside operation
+        //         customer: {
+        //             name: 'Sage Hogue',
+        //             address: {
+        //                 street: 'Testlocation 5',
+        //                 zipCode: '23912',
+        //                 country: 'USA'
+        //             },
+        //             email: 'test@domain.io'
+        //         },
+        //         deliveryMethod: 'asap'
+        //     }
+        //     axios.post('/orders.json', order)
+        //         .then(response => {
+        //             this.setState({ loading: false, purchasing: false });
+        //         })
+        //         .catch(error => {
+        //             console.log(error);
+        //             this.setState({ loading: false, purchasing: false });
+        //         });
+
+        this.props.history.push('/checkout');
     }
 
     render() {
@@ -130,9 +132,9 @@ class BurgerBuilder extends Component {
                 </Util>
             )
             orderSummary = <OrderSummary ingredients={this.state.ingredients}
-            price={this.state.totalPrice}
-            purchaseCancelled={this.purchaseCancelHandler}
-            purchaseContinued={this.purchaseContinueHandler} />
+                price={this.state.totalPrice}
+                purchaseCancelled={this.purchaseCancelHandler}
+                purchaseContinued={this.purchaseContinueHandler} />
         }
         if (this.state.loading) {
             orderSummary = <Spinner />;
